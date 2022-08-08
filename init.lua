@@ -30,7 +30,7 @@ require('packer').startup(function(use)
   -- Highlight, edit, and navigate code using a fast incremental parsing library
   use 'nvim-treesitter/nvim-treesitter'
   -- Additional textobjects for treesitter
-  --  use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
@@ -155,6 +155,9 @@ vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin'
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require('nvim-treesitter.configs').setup {
+  ensure_installed = {"cpp", "rust"},
+  sync_install = false,
+  auto_install = true,
   highlight = {
     enable = true, -- false will disable the whole extension
   },
@@ -331,6 +334,7 @@ require('nvim-autopairs').setup{}
 vim.cmd('let g:ranger_replace_netrw = 1')
 vim.cmd('cabbrev e Ranger')
 vim.cmd('nmap <C-P> :FZF<CR>')
+vim.cmd('set syntax=on')
 vim.cmd('filetype plugin indent on')
 vim.cmd('set expandtab')
 vim.cmd('set tabstop=2')
