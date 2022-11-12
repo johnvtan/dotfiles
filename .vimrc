@@ -1,31 +1,18 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
-" gruvbox color theme
-Plugin 'morhetz/gruvbox'
+Plug 'sainnhe/sonokai'
 
-" rust plugin
-Plugin 'rust-lang/rust.vim'
+Plug 'ycm-core/YouCompleteMe'
 
-" code completion
-" Plugin 'valloric/youcompleteme'
-Plugin 'ajh17/VimCompletesMe'
-
-" auto pairing braces
-Plugin 'jiangmiao/auto-pairs'
-
-" Doing stuff with surrounding chars
-Plugin 'tpope/vim-surround'
-
-Plugin 'francoiscabrol/ranger.vim'
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Initialize plugin system
+call plug#end()
 
 " Taken from https://gist.github.com/rocarvaj/2513367
 " VIM Configuration File
@@ -43,9 +30,7 @@ set autoindent
 " use intelligent indentation for C
 set smartindent
 " configure tabwidth and insert spaces instead of tabs
-set tabstop=4        " tab width is 4 spaces
-set shiftwidth=4     " indent also with 4 spaces
-set expandtab        " expand tabs to spaces
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 " wrap lines at 120 chars. 80 is somewaht antiquated with nowadays displays.
 set textwidth=120
 " turn syntax highlighting on
@@ -53,7 +38,7 @@ set t_Co=256
 syntax on
 
 " use gruvbox dark theme
-colorscheme gruvbox 
+colorscheme sonokai
 set background=dark
 " turn line numbers on
 set number
@@ -62,7 +47,16 @@ set showmatch
 " intelligent comments
 set comments=sl:/*,mb:\ *,elx:\ */
 
-" remap ctrl T for new tab
-noremap <C-t> :tabnew<CR>:Ranger<CR>
-noremap <C-l> :tabnext<CR>
-noremap <C-h> :tabprevious<CR>
+autocmd BufWritePre * :%s/\s\+$//e
+
+nnoremap gd :YcmCompleter GoToDefinition<CR>
+nnoremap gr :YcmCompleter GoToReferences<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <C-b> :Buffers<CR>
+
+nnoremap :W<CR> :w<CR>
+nnoremap :Wa<CR> :wa<CR>
+nnoremap :WA<CR> :wa<CR>
+nnoremap :Q<CR> :q<CR>
+nnoremap :WQ<CR> :wq<CR>
+nnoremap :Wq<CR> :wq<CR>
