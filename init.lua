@@ -37,13 +37,15 @@ require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'rbgrouleff/bclose.vim'
-  use 'francoiscabrol/ranger.vim'
+  -- use 'francoiscabrol/ranger.vim'
   use 'junegunn/fzf'
   use 'junegunn/fzf.vim'
   use 'windwp/nvim-autopairs'
   use 'lepture/vim-jinja'
   use 'axelf4/vim-strip-trailing-whitespace'
   use 'vimwiki/vimwiki'
+
+  use 'kyazdani42/nvim-tree.lua'
 
   -- install without yarn or npm
   use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
@@ -239,7 +241,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { 'clangd', 'rust_analyzer', 'pyright' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver'}
 local flags = { debounce_text_changes = 150 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -329,16 +331,26 @@ cmp.setup {
   },
 }
 
+require("nvim-tree").setup()
 require('nvim-autopairs').setup{}
 
-vim.cmd('let g:ranger_replace_netrw = 1')
-vim.cmd('cabbrev e Ranger')
+-- vim.cmd('let g:ranger_replace_netrw = 1')
+-- vim.cmd('cabbrev e Ranger')
 vim.cmd('nmap <C-P> :FZF<CR>')
+vim.cmd('nnoremap :e<CR> :NvimTreeFindFileToggle<CR>')
+vim.cmd('nmap <C-B> :Buffers<CR>')
+
 vim.cmd('set syntax=on')
 vim.cmd('filetype plugin indent on')
 vim.cmd('set expandtab')
 vim.cmd('set tabstop=2')
 vim.cmd('set softtabstop=2')
 vim.cmd('set shiftwidth=2')
+vim.cmd('nnoremap :W<CR> :w<CR>')
+vim.cmd('nnoremap :Wa<CR> :wa<CR>')
+vim.cmd('nnoremap :WA<CR> :wa<CR>')
+vim.cmd('nnoremap :Q<CR> :q<CR>')
+vim.cmd('nnoremap :WQ<CR> :wq<CR>')
+vim.cmd('nnoremap :Wq<CR> :wq<CR>')
 
 -- vim: ts=2 sts=2 sw=2 et
